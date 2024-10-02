@@ -4,7 +4,8 @@ export const ContactContext = createContext()
 import './App.css'
 import ContactList from "./components/ContactList"
 import ContactProfile from "./components/ContactProfile"
-import ContactForm from "./components/CreateContact"
+import ContactForm from "./components/ContactForm"
+import DeleteContact from "./components/DeleteContact"
 
 export default function App() {
     const username = "JHalvor"
@@ -39,7 +40,9 @@ export default function App() {
                 <Routes>
                     <Route path="/contacts" element={<ContactList />} />
                     <Route path="/newContact" element={<ContactForm />} />
-                    <Route path="/contacts/:id" element={<ContactProfile />} />
+                    <Route path="/editContact/:id" element={<ContactForm />} />
+                    <Route path="/viewContact/:id" element={<ContactProfile />} />
+                    <Route path="/deleteContact/:id" element={<DeleteContact />} />
                 </Routes>
             </ContactContext.Provider>
         </div>

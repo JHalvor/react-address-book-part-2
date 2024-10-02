@@ -14,17 +14,17 @@ ul {
 
 .main-layout {
   display: grid;
-  grid-template-columns: 1fr 3fr; /* Adjusts the ratio between menu and content */
-  gap: 20px; /* Adds space between the menu and the contact list */
-  padding: 20px; /* Adds padding around the whole layout */
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
+  padding: 20px;
 }
 
 .menu {
-  padding-left: 20px; /* Adds space to the left of the menu */
+  padding-left: 20px;
 }
 
 .contact-list {
-  padding-left: 10px; /* Optional: Adds some padding to the left of the contact list */
+  padding-left: 10px;
 }
 
 .contact-item {
@@ -36,10 +36,4 @@ ul {
 
 .contact-item p {
   margin: 0;
-}
-
-.view-link {
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
 }

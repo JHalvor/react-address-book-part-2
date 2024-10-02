@@ -1,7 +1,12 @@
 import { useState, useEffect, useContext } from 'react'
+import { useNavigate, useParams } from "react-router-dom";
 import { ContactContext } from '../App'
 
 export default function ContactForm() {
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const { contacts, setContacts } = useContext(ContactContext)
+
     const initialState = {
         id: 0,
         firstName: "",
@@ -11,7 +16,16 @@ export default function ContactForm() {
     }
 
     const [formData, setFormData] = useState(initialState)
-    const { contacts, setContacts } = useContext(ContactContext)
+
+    useEffect(() => {
+        // If id is present, find the contact by id and populate the form for editing
+        if (id) {
+            const contactToEdit = contacts.find(contact => contact.id === parseInt(id));
+            if (contactToEdit) {
+                setFormData(contactToEdit);
+            }
+        }
+    }, [id, contacts]);
 
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -20,14 +34,22 @@ export default function ContactForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        formData.id = contacts.reduce((max, contact) => contact.id > max ? contact.id : max, 0)
-        setContacts(() => [ ...contacts, formData ])
-        setFormData(initialState)
+
+        if (id) {
+            // Update existing contact
+            setContacts(contacts => contacts.map(contact => contact.id === parseInt(id) ? formData : contact));
+            navigate(`/viewContact/${id}`);
+        } else {
+            // Create new contact
+            formData.id = contacts.reduce((max, contact) => contact.id > max ? contact.id : max, 0)
+            setContacts(() => [ ...contacts, formData ])
+            setFormData(initialState)
+        }
     }
     
     return (
         <ul>
-            <h1>Create Contact</h1>
+            <h1>{id ? "Edit Contact" : "Create Contact"}</h1>
             <form onSubmit={handleSubmit}>
                 <ul>
                     <li>
@@ -67,7 +89,7 @@ export default function ContactForm() {
                             value={formData.city}/>
                     </li>
                 </ul>
-                <button type="submit">Create</button>
+                <button type="submit">{id ? "Update" : "Create"}</button>
             </form>
         </ul>
     )
